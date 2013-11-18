@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="200.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/2.2" fx:controller="platjava.FXMLAddChartController">
+  <children>
+    <TextField fx:id="titleTextField" prefWidth="517.0" promptText="Title" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+    <ComboBox fx:id="yAxisComboBox" prefWidth="517.0" promptText="X axis" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <ComboBox fx:id="xAxisComboBox" prefWidth="517.0" promptText="Y axis" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="86.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ComboBox>
+    <Label text="Title" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="17.0" />
+    <Label text="Y axis" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="53.0" />
+    <Label text="X axis" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="86.0" />
+    <Button defaultButton="true" mnemonicParsing="false" onAction="#addButton" prefWidth="64.0" text="Add" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+    <Button cancelButton="true" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="92.0" />
+  </children>
+</AnchorPane>

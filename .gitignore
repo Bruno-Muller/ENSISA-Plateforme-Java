@@ -4,5 +4,7 @@
 *.jar
 *.war
 *.ear
-/platjava/nbproject/private/
 /platjava/build/
+/nbproject/private/
+/build/
+/dist/
