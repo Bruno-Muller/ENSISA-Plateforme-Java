@@ -6,6 +6,7 @@
 
 package platjava;
 
+
 /**
  *
  * @author ASUS
@@ -13,31 +14,22 @@ package platjava;
 public class Converter
 {
     private String ResultingString;
-    private char[] ResultingCharTab;
+    
     public Converter()
     {
         
     }
     
-    public char[] ConvertBytesToChar(byte[] tab_byte)
+    public String ConvertBytesToString(byte[] tab_byte)
     {
         int k = tab_byte.length;
+        StringBuilder sb = new StringBuilder();
         for(int i = 0; i<k ;i ++)
                 {
-                 ResultingCharTab[i] = (char) tab_byte[i]; 
+                 sb.append((char)tab_byte[i]); 
                 }
-        return ResultingCharTab;      
-    }
-    
-    public String ConvertCharToString(char[] tab_char)
-    {
-        int k = tab_char.length;
-        for(int i = 0; i<k ;i ++)
-                {
-                 ResultingString += tab_char[i]; 
-                }
+        ResultingString = sb.toString();
         return ResultingString;      
     }
     
-    
-}
+    JSONObject jsonObj = new JSONObject("{\"phonetype\":\"N95\",\"cat\":\"WP\"}");
