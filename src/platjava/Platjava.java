@@ -8,6 +8,10 @@ package platjava;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -20,6 +24,17 @@ public class Platjava {
      */
     public static void main(String[] args)
     {
+        
+        String json = "{\"content\":\"Hello World\"}";
+        try {
+            JSONObject o = new JSONObject(json);
+            String content = o.getString("content");
+            System.out.println(content);
+        } catch (JSONException ex) {
+            Logger.getLogger(Platjava.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
         // TODO code application logic here
         List DataArray = new ArrayList<Data>();
         

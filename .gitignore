@@ -2,6 +2,7 @@
 
 # Package Files #
 *.jar
+!json-*.jar
 *.war
 *.ear
 /platjava/build/
