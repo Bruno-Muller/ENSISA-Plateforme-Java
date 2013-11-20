@@ -32,4 +32,5 @@ public class Converter
         return ResultingString;      
     }
     
-    JSONObject jsonObj = new JSONObject("{\"phonetype\":\"N95\",\"cat\":\"WP\"}");
+    //JSONObject jsonObj = new JSONObject("{\"phonetype\":\"N95\",\"cat\":\"WP\"}");
+}
