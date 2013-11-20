@@ -18,6 +18,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.Chart;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -98,10 +101,21 @@ public class FXMLMissionControlController implements Initializable {
 
     }
     
-    public void addChart(String title) {
+    public void addChart(String title, String xAxis, String yAxis) {
+        NumberAxis xNumberAxis = new NumberAxis();
+        xNumberAxis.setLabel(xAxis);
+        
+        NumberAxis yNumberAxis = new NumberAxis();
+        yNumberAxis.setLabel(yAxis);
+        
+        Chart chart = new LineChart(xNumberAxis, yNumberAxis);
+        chart.setTitle(title);
+        
         // On ajoute l'onglet
         final Tab tab = new Tab();
         tab.setText(title);
+        tab.setContent(chart);
+        
         this.tabPane.getTabs().add(tab);
 
         // On ajoute une entrée au menu pour supprimer l'onglet

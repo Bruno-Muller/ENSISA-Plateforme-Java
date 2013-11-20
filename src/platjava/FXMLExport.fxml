@@ -21,9 +21,10 @@
     <ComboBox fx:id="probeComboBox" layoutX="14.0" layoutY="96.0" prefWidth="226.0" promptText="Probe to export">
       <items>
         <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Item 1" />
-          <String fx:value="Item 2" />
-          <String fx:value="Item 3" />
+          <String fx:value="Z-Map Satellite" />
+          <String fx:value="ISS" />
+          <String fx:value="Voyager 1" />
+          <String fx:value="Voyager 2" />
         </FXCollections>
       </items>
     </ComboBox>

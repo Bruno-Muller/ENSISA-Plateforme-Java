@@ -50,7 +50,7 @@ public class FXMLAddChartController implements Initializable {
 
     @FXML
     private void addButton(ActionEvent event) {
-        this.missionControlController.addChart(this.titleTextField.getText());
+        this.missionControlController.addChart(this.titleTextField.getText(), (String) this.xAxisComboBox.getValue(),  (String) this.yAxisComboBox.getValue());
         ((Stage) this.anchor.getScene().getWindow()).close();
     }
 
