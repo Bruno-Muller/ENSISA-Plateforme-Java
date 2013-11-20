@@ -6,18 +6,110 @@
 
 package platjava;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  *
  * @author ASUS
  */
 public class Data
 {
-    private double Altitude; //Au vu de la précision j'ai mis un double.
-    private double Speed;
-    private double Longitude;
+    private double altitude; //Au vu de la précision j'ai mis un double.
+    private double speed;
+    private double longitude;
+    private JSONObject obj;
     
     public Data()
     {
         
+    }
+    
+    public double getAltitude()
+    {
+        try
+        {
+            this.altitude = getObj().getDouble("altitude");
+        }
+        catch (JSONException ex)
+        {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return this.altitude;
+    }
+    
+
+    /**
+     * @param altitude the altitude to set
+     */
+    public void setAltitude(double altitude)
+    {
+        this.altitude = altitude;
+    }
+
+    /**
+     * @return the speed
+     */
+    public double getSpeed()
+    {
+        try
+        {
+            this.speed = obj.getDouble("speed");
+        }
+        catch(JSONException ex)
+        {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return speed;
+    }
+
+    /**
+     * @param speed the speed to set
+     */
+    public void setSpeed(double speed)
+    {
+        this.speed = speed;
+    }
+
+    /**
+     * @return the longitude
+     */
+    public double getLongitude()
+    {
+        try
+        {
+            this.longitude = obj.getDouble("longitude");
+        }
+        catch(JSONException ex)
+        {
+            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return longitude;
+    }
+
+    /**
+     * @param longitude the longitude to set
+     */
+    public void setLongitude(double longitude)
+    {
+        this.longitude = longitude;
+    }
+
+    /**
+     * @return the obj
+     */
+    public JSONObject getObj()
+    {
+        return obj;
+    }
+
+    /**
+     * @param obj the obj to set
+     */
+    public void setObj(JSONObject obj)
+    {
+        this.obj = obj;
     }
 }
