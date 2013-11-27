@@ -29,14 +29,6 @@ public class Data
     
     public double getAltitude()
     {
-        try
-        {
-            this.altitude = getObj().getDouble("altitude");
-        }
-        catch (JSONException ex)
-        {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
-        }
         return this.altitude;
     }
     
@@ -54,15 +46,7 @@ public class Data
      */
     public double getSpeed()
     {
-        try
-        {
-            this.speed = obj.getDouble("speed");
-        }
-        catch(JSONException ex)
-        {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return speed;
+        return this.speed;
     }
 
     /**
@@ -78,15 +62,7 @@ public class Data
      */
     public double getLongitude()
     {
-        try
-        {
-            this.longitude = obj.getDouble("longitude");
-        }
-        catch(JSONException ex)
-        {
-            Logger.getLogger(Data.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        return longitude;
+        return this.longitude;
     }
 
     /**
