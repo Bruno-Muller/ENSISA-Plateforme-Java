@@ -6,6 +6,8 @@
 
 package platjava;
 
+import java.net.DatagramPacket;
+
 /**
  *
  * @author ASUS
@@ -14,10 +16,18 @@ public class Converter
 {
     private String resultingString;
     private byte[] tab_byte;
+    private DatagramPacket packet;
     
     public Converter()
     {
         
+    }
+    
+    public Converter(DatagramPacket packet)
+    {
+        this.packet = packet;
+        this.tab_byte = getPacket().getData();
+        this.resultingString = this.ConvertBytesToString(getTab_byte());
     }
     
     public String ConvertBytesToString(byte[] tab_byte)
@@ -53,14 +63,30 @@ public class Converter
     /**
      * @return the tab_byte
      */
-    public byte[] getTab_byte() {
+    public byte[] getTab_byte()
+    {
         return tab_byte;
     }
 
     /**
      * @param tab_byte the tab_byte to set
      */
-    public void setTab_byte(byte[] tab_byte) {
+    public void setTab_byte(byte[] tab_byte)
+    {
         this.setTab_byte(tab_byte);
+    }
+
+    /**
+     * @return the packet
+     */
+    public DatagramPacket getPacket() {
+        return packet;
+    }
+
+    /**
+     * @param packet the packet to set
+     */
+    public void setPacket(DatagramPacket packet) {
+        this.packet = packet;
     }
 }
