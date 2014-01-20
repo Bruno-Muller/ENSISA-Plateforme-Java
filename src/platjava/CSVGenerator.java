@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
@@ -24,30 +26,28 @@ public class CSVGenerator
 
     }
 
-    public static void generateCsvFile(File file, ArrayList<Telemetry> data) {
+    public static void generateCsvFile(File file, ArrayList<Telemetry> tele) throws JSONException {
         try {
             try (FileWriter writer = new FileWriter(file)) 
             {
-                Iterator<Telemetry> ite= data.iterator();
-                while(ite.hasNext())
+                for(DataType c : DataType.values())
                 {
-                
-                writer.append("DisplayName");
-                writer.append(',');
-                writer.append("Age");
+                    writer.append(c.getLabel());
+                    writer.append(',');
+                }
                 writer.append('\n');
                 
-                writer.append("MKYONG");
-                writer.append(',');
-                writer.append("26");
+                Iterator<Telemetry> ittele= tele.iterator();
+                while(ittele.hasNext())
+                {
+                    Telemetry obj = ittele.next();
+                    for(DataType v : DataType.values())
+                    {
+                        writer.append((obj.getData(v)).toString());
+                        writer.append(',');
+                    }
+         
                 writer.append('\n');
-                
-                writer.append("YOUR NAME");
-                writer.append(',');
-                writer.append("29");
-                writer.append('\n');
-                
-                ite.next();
                 }
                 //generate whatever data you want
                 writer.flush();
