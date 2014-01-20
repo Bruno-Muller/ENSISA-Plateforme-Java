@@ -30,9 +30,15 @@ public class CSVGenerator
         try {
             try (FileWriter writer = new FileWriter(file)) 
             {
+                int count =0;
+                for(DataType c : DataType.values())
+                {
+                    count++;
+                }
                 for(DataType c : DataType.values())
                 {
                     writer.append(c.getLabel());
+                    if(!(c.ordinal()==count))
                     writer.append(',');
                 }
                 writer.append('\n');
@@ -44,6 +50,7 @@ public class CSVGenerator
                     for(DataType v : DataType.values())
                     {
                         writer.append((obj.getData(v)).toString());
+                        if(!(v.ordinal()==count))
                         writer.append(',');
                     }
          
