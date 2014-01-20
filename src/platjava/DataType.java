@@ -15,77 +15,36 @@ import org.json.JSONObject;
  *
  * @author ASUS
  */
-public class Data
+public enum DataType
 {
-    private double altitude; //Au vu de la précision j'ai mis un double.
-    private double speed;
-    private double longitude;
-    private JSONObject obj;
+    UNIQUE_ID,VESSEL_NAME,MISSION_TIME,REFERENCE_BODY,ALTITUDE,LATITUDE
+    ,LONGITUDE,VERTICAL_SPEED,ORBITAL_VELOCITY,SURFACE_VELOCITY,APOAPSIS,
+    PERIAPSIS,ECCENTRICITY,TOTAL_MASSE,ATMOSPHERE_DENSITY,TEMPERATURE,
+    STATIC_PRESSURE,DYNAMIC_PRESSURE;
     
-    public Data()
+    private static final String[] LABELS = {"Unique id","Vessel name",
+        "Mission time","Reference Body","Altitude","Latitude",
+        "Vertical speed","Orbital velocity","Surface velocity",
+    "Apoasis","Periapsis","Eccentricity","Total mass",
+    "Atmosphere density", "Temperature","Static pressure",
+    "Dynamic pressure"};
+    
+    public Class getType()
     {
-        
+        switch(this)
+        {
+            case UNIQUE_ID:
+            case VESSEL_NAME:
+            case REFERENCE_BODY:
+                return String.class;
+            default:
+                return float.class;
+        }
     }
     
-    public double getAltitude()
+    public String getLabel()
     {
-        return this.altitude;
-    }
-    
-
-    /**
-     * @param altitude the altitude to set
-     */
-    public void setAltitude(double altitude)
-    {
-        this.altitude = altitude;
-    }
-
-    /**
-     * @return the speed
-     */
-    public double getSpeed()
-    {
-        return this.speed;
-    }
-
-    /**
-     * @param speed the speed to set
-     */
-    public void setSpeed(double speed)
-    {
-        this.speed = speed;
-    }
-
-    /**
-     * @return the longitude
-     */
-    public double getLongitude()
-    {
-        return this.longitude;
-    }
-
-    /**
-     * @param longitude the longitude to set
-     */
-    public void setLongitude(double longitude)
-    {
-        this.longitude = longitude;
-    }
-
-    /**
-     * @return the obj
-     */
-    public JSONObject getObj()
-    {
-        return obj;
-    }
-
-    /**
-     * @param obj the obj to set
-     */
-    public void setObj(JSONObject obj)
-    {
-        this.obj = obj;
+        return this.LABELS[this.ordinal()];
     }
 }
+

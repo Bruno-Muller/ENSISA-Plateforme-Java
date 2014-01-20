@@ -36,7 +36,7 @@ public class Platjava {
         
         
         // TODO code application logic here
-        List DataArray = new ArrayList<Data>();
+        List DataArray = new ArrayList<DataType>();
         
      byte[] octets = new byte[] {'a', 'b', 'c'};
      String chaine = "";
