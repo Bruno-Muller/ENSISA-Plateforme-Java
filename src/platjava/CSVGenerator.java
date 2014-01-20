@@ -5,8 +5,12 @@
  */
 package platjava;
 
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import org.json.JSONObject;
 
 /**
  *
@@ -20,28 +24,35 @@ public class CSVGenerator
 
     }
 
-    public static void generateCsvFile(String sFileName) {
+    public static void generateCsvFile(File file, ArrayList<Telemetry> data) {
         try {
-            FileWriter writer = new FileWriter(sFileName);
-
-            writer.append("DisplayName");
-            writer.append(',');
-            writer.append("Age");
-            writer.append('\n');
-
-            writer.append("MKYONG");
-            writer.append(',');
-            writer.append("26");
-            writer.append('\n');
-
-            writer.append("YOUR NAME");
-            writer.append(',');
-            writer.append("29");
-            writer.append('\n');
-
-            //generate whatever data you want
-            writer.flush();
-            writer.close();
+            try (FileWriter writer = new FileWriter(file)) 
+            {
+                Iterator<Telemetry> ite= data.iterator();
+                while(ite.hasNext())
+                {
+                
+                writer.append("DisplayName");
+                writer.append(',');
+                writer.append("Age");
+                writer.append('\n');
+                
+                writer.append("MKYONG");
+                writer.append(',');
+                writer.append("26");
+                writer.append('\n');
+                
+                writer.append("YOUR NAME");
+                writer.append(',');
+                writer.append("29");
+                writer.append('\n');
+                
+                ite.next();
+                }
+                //generate whatever data you want
+                writer.flush();
+                writer.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

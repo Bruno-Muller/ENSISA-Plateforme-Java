@@ -6,6 +6,9 @@
 package platjava;
 
 import java.io.IOException;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.SocketException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
@@ -26,6 +29,7 @@ import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import org.json.JSONException;
 
 /**
  *
@@ -147,4 +151,33 @@ public class FXMLMissionControlController implements Initializable {
         }
     }
 
+    private class Server implements Runnable
+    {
+        private final static int BUFFER_SIZE = 1024;
+        private final static int PORT = 8000;
+        
+        @Override
+        public void run() {
+            try {
+                DatagramSocket datagramSocket = new DatagramSocket(PORT);
+              
+                     byte[] buffer = new byte[BUFFER_SIZE];
+                     
+                     while (true) 
+                     {
+                         DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
+                         datagramSocket.receive(datagramPacket);   
+                         
+                         Telemetry t = new Telemetry(datagramPacket);
+                     }
+            } catch (JSONException ex) 
+            {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SocketException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }  
+    }
 }
