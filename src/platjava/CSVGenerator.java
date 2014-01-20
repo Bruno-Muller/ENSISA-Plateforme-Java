@@ -30,11 +30,8 @@ public class CSVGenerator
         try {
             try (FileWriter writer = new FileWriter(file)) 
             {
-                int count =0;
-                for(DataType c : DataType.values())
-                {
-                    count++;
-                }
+                int count =DataType.values().length;
+                
                 for(DataType c : DataType.values())
                 {
                     writer.append(c.getLabel());
