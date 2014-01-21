@@ -61,25 +61,28 @@ public class XcelGenerator
                 if(obj.getData(v).getClass().equals(Integer.class))
                 {
                     number = new jxl.write.Number(j,k,(Integer)obj.getData(v));
+                    sheet.addCell(number);
                     j++;
                 }
                 if(obj.getData(v).getClass().equals(Long.class))
                 {
                     number = new jxl.write.Number(j,k,(Long)obj.getData(v));
+                    sheet.addCell(number);
                     j++;
                 }
                 if(obj.getData(v).getClass().equals(Double.class))
                 {
                     number = new jxl.write.Number(j,k,(Double)obj.getData(v));
+                    sheet.addCell(number);
                     j++;
                 }
 
                 if(obj.getData(v).getClass().equals(Float.class))
                 {
                     number = new jxl.write.Number(j,k,(Float)obj.getData(v));
+                    sheet.addCell(number);
                     j++;
                 }
-                sheet.addCell(number);
                 
             }
             }
