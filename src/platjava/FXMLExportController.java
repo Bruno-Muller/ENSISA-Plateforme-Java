@@ -61,7 +61,7 @@ public class FXMLExportController implements Initializable {
     @FXML
     private void saveAsButton(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialFileName("export");
+        //fileChooser.setInitialFileName("export");
 
         // TODO ExtensionFilters en fonction du format choisis, csv/xls
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
