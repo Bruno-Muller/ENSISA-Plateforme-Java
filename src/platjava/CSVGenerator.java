@@ -17,22 +17,18 @@ import org.json.JSONObject;
  *
  * @author ASUS
  */
-public class CSVGenerator 
-{
+public class CSVGenerator {
 
-    public CSVGenerator() 
-    {
+    public CSVGenerator() {
 
     }
 
-    public static void generateCsvFile(File file, ArrayList<Telemetry> tele) throws JSONException, IOException
-    {
+    public static void generateCsvFile(File file, ArrayList<Telemetry> tele) throws JSONException, IOException {
         try (FileWriter writer = new FileWriter(file)) {
-            int count = DataType.values().length-1;
+            int count = DataType.values().length - 1;
 
-            for (DataType c : DataType.values())
-            {
-                writer.append("\""+c.getLabel()+"\"");
+            for (DataType c : DataType.values()) {
+                writer.append("\"" + c.getLabel() + "\"");
                 if (!(c.ordinal() == count)) {
                     writer.append(',');
                 }
@@ -40,15 +36,25 @@ public class CSVGenerator
             writer.append('\n');
 
             Iterator<Telemetry> ittele = tele.iterator();
-            while (ittele.hasNext())
-            {
+            while (ittele.hasNext()) {
                 Telemetry obj = ittele.next();
-                for (DataType v : DataType.values())
+                for (DataType v : DataType.values()) 
                 {
-                    writer.append("\""+obj.getData(v).toString()+"\"");
-                    if (!(v.ordinal() == count)) 
+                    if (v.getType() == String.class) 
                     {
-                        writer.append(',');
+                        writer.append("\""+obj.getData(v).toString()+"\"");
+                        if (!(v.ordinal() == count)) 
+                        {
+                            writer.append(',');
+                        }
+                    } 
+                    else 
+                    {
+                        writer.append(obj.getData(v).toString());
+                        if (!(v.ordinal() == count)) 
+                        {
+                            writer.append(',');
+                        }
                     }
                 }
 
