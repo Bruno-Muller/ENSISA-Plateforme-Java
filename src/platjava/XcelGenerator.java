@@ -32,7 +32,7 @@ public class XcelGenerator
     public static void generateXcelFile(File file, ArrayList<Telemetry> tele) throws JSONException, IOException, WriteException
     {
         WritableWorkbook workbook = Workbook.createWorkbook(file);
-        WritableSheet sheet = workbook.createSheet(file.toString(), 0);
+        WritableSheet sheet = workbook.createSheet(file.toString(),0);
         Label label;
         jxl.write.Number number = null;
         int i =0;
@@ -89,6 +89,7 @@ public class XcelGenerator
             k++;
             j=0;
         }
-        
+        workbook.write();
+        workbook.close(); 
     }
 }
