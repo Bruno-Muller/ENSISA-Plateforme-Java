@@ -51,23 +51,33 @@ public class XcelGenerator
             Telemetry obj = ittele.next();
             for (DataType v : DataType.values())
             {
-                if(v.getType().equals(String.class))
+                if(obj.getData(v).getClass().equals(String.class))
                 {
                     label = new Label(j,k,obj.getData(v).toString());
                     sheet.addCell(label);
                     j++;
                 }
-                if(v.getType().equals(Integer.class))
+                if(obj.getData(v).getClass().equals(Integer.class))
                 {
                     number = new jxl.write.Number(j,k,(Integer)obj.getData(v));
                     j++;
                 }
-                else
+                if(obj.getData(v).getClass().equals(Long.class))
                 {
                     number = new jxl.write.Number(j,k,(Float)obj.getData(v));
                     j++;
                 }
+                if(obj.getData(v).getClass().equals(Double.class))
+                {
+                    number = new jxl.write.Number(j,k,(Double)obj.getData(v));
+                    j++;
+                }
 
+                if(obj.getData(v).getClass().equals(Float.class))
+                {
+                    number = new jxl.write.Number(j,k,(Float)obj.getData(v));
+                    j++;
+                }
             }
             k++;
             j=0;
