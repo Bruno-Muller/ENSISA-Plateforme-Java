@@ -7,7 +7,10 @@ package platjava;
 
 import java.io.File;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -17,6 +20,7 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import org.json.JSONException;
 
 /**
  * FXML Controller class
@@ -27,20 +31,20 @@ public class FXMLExportController implements Initializable {
 
     public static final String TITLE = "Export";
     public static final String FXML_RESOURCE = "FXMLExport.fxml";
-    
+
     @FXML
     private ToggleGroup formatToogleGroup;
-    @FXML
-    private ComboBox<?> probeComboBox;
     @FXML
     private TextField fileTextField;
     @FXML
     private AnchorPane anchorPane;
-    
+
     private File file;
+    private ArrayList<Telemetry> data;
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
@@ -51,11 +55,19 @@ public class FXMLExportController implements Initializable {
     @FXML
     private void exportButton(ActionEvent event) {
 
+        try {
+            if (this.file != null) {
+                CSVGenerator.generateCsvFile(this.file, this.data);
+            }
+        } catch (JSONException ex) {
+            Logger.getLogger(FXMLExportController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
     }
 
     @FXML
     private void cancelButton(ActionEvent event) {
-        ((Stage)   this.anchorPane.getScene().getWindow()).close();
+        ((Stage) this.anchorPane.getScene().getWindow()).close();
     }
 
     @FXML
@@ -72,9 +84,13 @@ public class FXMLExportController implements Initializable {
             this.fileTextField.setText(this.file.getPath());
         }
     }
-    
+
     public File getFile() {
         return this.file;
     }
-    
+
+    public void setData(ArrayList<Telemetry> data) {
+        this.data = data;
+    }
+
 }
