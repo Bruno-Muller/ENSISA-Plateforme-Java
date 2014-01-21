@@ -13,7 +13,6 @@
         <Menu mnemonicParsing="false" text="File">
           <items>
             <Menu mnemonicParsing="false" text="Export probe" fx:id="exportProbeMenu" />
-            <MenuItem mnemonicParsing="false" text="Export all" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#closeMenuItem" text="Close" />
           </items>

@@ -16,6 +16,8 @@ import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.event.EventHandler;
@@ -24,12 +26,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import org.json.JSONException;
 
@@ -46,18 +48,19 @@ public class FXMLMissionControlController implements Initializable {
     public static final String FXML_RESOURCE = "FXMLMissionControl.fxml";
 
     @FXML
-    private TabPane tabPane;
+        private TabPane tabPane;
     @FXML
-    private Menu removeChartMenu;
+        private Menu removeChartMenu;
     @FXML
-    private Menu addChartMenu;
+        private Menu addChartMenu;
     @FXML
-    private Menu exportProbeMenu;
+        private Menu exportProbeMenu;
 
     private Thread server = null;
-    ArrayList<Telemetry> data = null;
+    private ArrayList<Telemetry> data = null;
     private HashMap<String, String> probeNames = null;
     private HashMap<String, ArrayList<KSPChart>> charts = null;
+    private HashMap<String, Tab> probeTabs = null;
 
     /**
      * Initializes the controller class.
@@ -72,10 +75,10 @@ public class FXMLMissionControlController implements Initializable {
         this.data = new ArrayList<>();
         this.probeNames = new HashMap<>();
         this.charts = new HashMap<>();
+        this.probeTabs = new HashMap<>();
     }
 
-    @FXML
-    private void exportMenuItem(ActionEvent event) {
+        private void exportMenuItem(ActionEvent event) {
         try {
             Stage stage = new Stage();
             stage.setTitle(FXMLExportController.TITLE);
@@ -146,9 +149,11 @@ public class FXMLMissionControlController implements Initializable {
                     
                     
                     for (Telemetry tl : data) {
-                        if (!tl.getData(DataType.UNIQUE_ID).equals(uid)) continue;
+                        if (String.valueOf(tl.getData(DataType.UNIQUE_ID)).equals(uid))
                             dt.add(tl);
                     }
+                    
+                    System.out.println(dt.size());
                     controller.setData(dt);
                     
                     Scene scene = new Scene(root);
@@ -161,22 +166,13 @@ public class FXMLMissionControlController implements Initializable {
             }
         });
         this.exportProbeMenu.getItems().add(mi);
-        /*
-         // Panel de télémétrie
-         JPanel p = new JPanel();
-         p.setBackground(this.probesPanel.getBackground());
-         p.setForeground(this.probesPanel.getForeground());
-         p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
-         p.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
-         this.tabbedPane.add(probeName + " - Telemetry", p);
         
-         this.probePanels.put(uid, p);
-        
-       
-        
-         this.updateProbesPanel();
-         */
-
+       Tab tab = new Tab();
+       tab.setText(probeName + " - Telemetry");
+       tab.setClosable(true);
+      
+        this.probeTabs.put(uid, tab);
+        this.updateProbeTabs();
         this.charts.put(uid, new ArrayList<KSPChart>());
         this.probeNames.put(uid, probeName);
 
@@ -231,6 +227,26 @@ public class FXMLMissionControlController implements Initializable {
         } catch (JSONException ex) {
             Logger.getLogger(FXMLMissionControlController.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    
+    private void updateProbeTabs() {
+        /*
+             VBox vb = new VBox();
+       Tab tab = new Tab();
+       tab.setText(probeName + " - Telemetry");
+       tab.setClosable(true);
+       tab.setContent(vb);
+       
+        ObservableList<Label> infos = FXCollections.observableArrayList();
+        for (DataType d : DataType.values()) {
+               infos.add(new Label(d.getLabel() + ": " + t.));
+        }
+
+        
+        
+        vb.getChildren().addAll(infos);
+       
+        */
     }
 
     private class Server implements Runnable {

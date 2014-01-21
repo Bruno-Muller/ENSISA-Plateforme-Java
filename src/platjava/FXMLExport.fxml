@@ -10,12 +10,12 @@
 <AnchorPane id="AnchorPane" fx:id="anchorPane" prefHeight="210.0" prefWidth="320.0" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/2.2" fx:controller="platjava.FXMLExportController">
   <children>
     <Label text="Export format :" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="14.0" />
-    <RadioButton disable="true" mnemonicParsing="false" selected="false" text="Excel (.xls)" underline="false" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="66.0">
+    <RadioButton fx:id="xlsButtonRadio" disable="false" mnemonicParsing="false" selected="false" text="Excel (.xls)" underline="false" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="66.0">
       <toggleGroup>
         <ToggleGroup fx:id="formatToogleGroup" />
       </toggleGroup>
     </RadioButton>
-    <RadioButton mnemonicParsing="false" selected="true" text="Comma-separated values (*.csv)" toggleGroup="$formatToogleGroup" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="40.0" />
+    <RadioButton fx:id="csvButtonRadio" mnemonicParsing="false" selected="true" text="Comma-separated values (*.csv)" toggleGroup="$formatToogleGroup" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="40.0" />
     <Button defaultButton="true" mnemonicParsing="false" onAction="#exportButton" prefWidth="64.0" text="Export" wrapText="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
     <Button cancelButton="true" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="92.0" />
     <Button mnemonicParsing="false" onAction="#saveAsButton" text="Save as" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="133.0" />

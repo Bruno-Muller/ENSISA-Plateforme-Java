@@ -6,6 +6,7 @@
 package platjava;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -15,11 +16,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import jxl.write.WriteException;
 import org.json.JSONException;
 
 /**
@@ -41,6 +44,10 @@ public class FXMLExportController implements Initializable {
 
     private File file;
     private ArrayList<Telemetry> data;
+    @FXML
+    private RadioButton xlsButtonRadio;
+    @FXML
+    private RadioButton csvButtonRadio;
 
     /**
      * Initializes the controller class.
@@ -57,9 +64,16 @@ public class FXMLExportController implements Initializable {
 
         try {
             if (this.file != null) {
-                CSVGenerator.generateCsvFile(this.file, this.data);
+                System.out.println(this.data.size());
+                
+                     if (this.csvButtonRadio.isSelected())
+                        CSVGenerator.generateCsvFile(this.file, this.data);
+                     else if (this.xlsButtonRadio.isSelected())
+                        XcelGenerator.generateXcelFile(this.file, this.data);
+
+                ((Stage) this.anchorPane.getScene().getWindow()).close();
             }
-        } catch (JSONException ex) {
+        } catch (JSONException | IOException | WriteException ex) {
             Logger.getLogger(FXMLExportController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -73,11 +87,13 @@ public class FXMLExportController implements Initializable {
     @FXML
     private void saveAsButton(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
-        //fileChooser.setInitialFileName("export");
+        fileChooser.setInitialFileName("export");
 
-        // TODO ExtensionFilters en fonction du format choisis, csv/xls
-        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
-
+        if (this.csvButtonRadio.isSelected())
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
+        else if (this.xlsButtonRadio.isSelected())
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
+                
         this.file = fileChooser.showSaveDialog(null);
 
         if (this.file != null) {
