@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import jxl.Workbook;
+import jxl.write.Number;
 import jxl.write.Label;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
@@ -33,7 +34,7 @@ public class XcelGenerator
         WritableWorkbook workbook = Workbook.createWorkbook(file);
         WritableSheet sheet = workbook.createSheet(file.toString(), 0);
         Label label;
-        Number number;
+        jxl.write.Number number;
         int i =0;
         for (DataType c : DataType.values())
         {
@@ -48,17 +49,18 @@ public class XcelGenerator
         while(ittele.hasNext())
         {
             Telemetry obj = ittele.next();
-            for (Telemetry v : tele)
+            for (DataType v : DataType.values())
             {
                 if(v.getType()==String.class)
                 {
-                    label = new Label(j,k,(obj.getData(v)).toString());
+                    label = new Label(j,k,obj.getData(v).toString());
                     sheet.addCell(label);
                     j++;
                 }
                 else
                 {
-                    number = new Number(o);
+                    number = new jxl.write.Number(j,k,(Float)obj.getData(v));
+                    j++;
                 }
 
             }
