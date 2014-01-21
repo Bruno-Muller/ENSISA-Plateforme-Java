@@ -20,7 +20,7 @@ public enum DataType
     private static final String[] LABELS = {"Unique id","Vessel name",
         "Mission time","Reference Body","Altitude","Latitude",
         "Longitude","Vertical speed","Orbital velocity","Surface velocity",
-    "Apoasis","Periapsis","Eccentricity","Total mass",
+    "Apoapsis","Periapsis","Eccentricity","Total mass",
     "Atmosphere density", "Temperature","Static pressure",
     "Dynamic pressure"};
     
@@ -35,6 +35,38 @@ public enum DataType
                 return String.class;
             default:
                 return float.class;
+        }
+    }
+    
+    public String getUnity()
+    {
+        //Distance m, total tonne , vitesse m/s, default string vide, temps sec
+        //P
+        switch(this)
+        {
+            case MISSION_TIME:
+                return "s";
+            case ALTITUDE:
+            case LATITUDE:
+            case LONGITUDE:
+            case APOAPSIS:
+            case PERIAPSIS:
+                return "m";
+            case VERTICAL_SPEED:
+            case ORBITAL_VELOCITY:
+            case SURFACE_VELOCITY:
+                return "m/s";
+            case TOTAL_MASS:
+                return "t";
+            case ATMOSPHERE_DENSITY:
+                return "kg/m^3";
+            case TEMPERATURE:
+                return "K";
+            case STATIC_PRESSURE:
+            case DYNAMIC_PRESSURE:
+                return "Pa";
+            default:
+                return "";
         }
     }
     
