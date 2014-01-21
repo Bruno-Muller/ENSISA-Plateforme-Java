@@ -17,14 +17,17 @@ import org.json.JSONObject;
  *
  * @author ASUS
  */
-public class CSVGenerator {
+public class CSVGenerator 
+{
 
-    public CSVGenerator() {
+    public CSVGenerator() 
+    {
 
     }
 
-    public static void generateCsvFile(File file, ArrayList<Telemetry> tele) throws JSONException, IOException {
-        try (FileWriter writer = new FileWriter(file)) {
+    public static void generateCsvFile(File file, ArrayList<Telemetry> tele) throws JSONException, IOException
+    {
+        FileWriter writer = new FileWriter(file);
             int count = DataType.values().length - 1;
 
             for (DataType c : DataType.values()) {
@@ -40,7 +43,7 @@ public class CSVGenerator {
                 Telemetry obj = ittele.next();
                 for (DataType v : DataType.values()) 
                 {
-                    if (v.getType() == String.class) 
+                    if (v.getType().equals(String.class)) 
                     {
                         writer.append("\""+obj.getData(v).toString()+"\"");
                         if (!(v.ordinal() == count)) 
@@ -48,7 +51,7 @@ public class CSVGenerator {
                             writer.append(',');
                         }
                     } 
-                    else 
+                    else
                     {
                         writer.append(obj.getData(v).toString());
                         if (!(v.ordinal() == count)) 
@@ -64,5 +67,5 @@ public class CSVGenerator {
             writer.flush();
             writer.close();
         }
-    }
+ 
 }

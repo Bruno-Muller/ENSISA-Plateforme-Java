@@ -51,10 +51,15 @@ public class XcelGenerator
             Telemetry obj = ittele.next();
             for (DataType v : DataType.values())
             {
-                if(v.getType()==String.class)
+                if(v.getType().equals(String.class))
                 {
                     label = new Label(j,k,obj.getData(v).toString());
                     sheet.addCell(label);
+                    j++;
+                }
+                if(v.getType().equals(Integer.class))
+                {
+                    number = new jxl.write.Number(j,k,(Integer)obj.getData(v));
                     j++;
                 }
                 else

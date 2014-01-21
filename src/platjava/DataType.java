@@ -29,6 +29,7 @@ public enum DataType
         switch(this)
         {
             case UNIQUE_ID:
+                return Integer.class;
             case VESSEL_NAME:
             case REFERENCE_BODY:
                 return String.class;
