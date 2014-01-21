@@ -42,17 +42,17 @@ public enum DataType
         return DataType.LABELS[this.ordinal()];
     }
     
-//    public enum fromLabel(String lb)
-//    {
-//          for(DataType c : DataType.values())
-//   
-//          {
-//              if(lb = c.toString())
-//              {
-//                  DataType v = c;
-//              }
-//        return v;
-//          }
-//    }
+    public DataType fromLabel(String lb)
+    {
+        DataType v=null;
+          for(DataType c : DataType.values())
+          {
+              if(lb.equals(c.getLabel()))
+              {
+                  v = c;
+              }
+          }
+          return v;
+    }
 }
 
