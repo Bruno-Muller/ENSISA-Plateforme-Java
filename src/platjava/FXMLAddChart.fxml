@@ -11,28 +11,8 @@
   <children>
     <TextField fx:id="titleTextField" prefWidth="517.0" promptText="Title" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
     <ComboBox fx:id="yAxisComboBox" prefWidth="517.0" promptText="X axis" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
-      <items>
-        <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Altitude" />
-          <String fx:value="Latitude" />
-          <String fx:value="Longitude" />
-          <String fx:value="Mission time" />
-          <String fx:value="Speed" />
-          <String fx:value="Temperature" />
-        </FXCollections>
-      </items>
     </ComboBox>
     <ComboBox fx:id="xAxisComboBox" prefWidth="517.0" promptText="Y axis" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="86.0">
-      <items>
-        <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Altitude" />
-          <String fx:value="Latitude" />
-          <String fx:value="Longitude" />
-          <String fx:value="Mission time" />
-          <String fx:value="Speed" />
-          <String fx:value="Temperature" />
-        </FXCollections>
-      </items>
     </ComboBox>
     <Label text="Title" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="17.0" />
     <Label text="Y axis" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="53.0" />

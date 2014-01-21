@@ -14,12 +14,12 @@ public enum DataType
 {
     UNIQUE_ID,VESSEL_NAME,MISSION_TIME,REFERENCE_BODY,ALTITUDE,LATITUDE
     ,LONGITUDE,VERTICAL_SPEED,ORBITAL_VELOCITY,SURFACE_VELOCITY,APOAPSIS,
-    PERIAPSIS,ECCENTRICITY,TOTAL_MASSE,ATMOSPHERE_DENSITY,TEMPERATURE,
+    PERIAPSIS,ECCENTRICITY,TOTAL_MASS,ATMOSPHERE_DENSITY,TEMPERATURE,
     STATIC_PRESSURE,DYNAMIC_PRESSURE;
     
     private static final String[] LABELS = {"Unique id","Vessel name",
         "Mission time","Reference Body","Altitude","Latitude",
-        "Vertical speed","Orbital velocity","Surface velocity",
+        "Longitude","Vertical speed","Orbital velocity","Surface velocity",
     "Apoasis","Periapsis","Eccentricity","Total mass",
     "Atmosphere density", "Temperature","Static pressure",
     "Dynamic pressure"};

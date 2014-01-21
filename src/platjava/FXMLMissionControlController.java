@@ -10,20 +10,22 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.chart.Chart;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.Tab;
@@ -36,10 +38,10 @@ import org.json.JSONException;
  * @author bruno
  */
 public class FXMLMissionControlController implements Initializable {
-    
+
     /*
-    TODO right-clic sur les tab pour delete
-    */
+     TODO right-clic sur les tab pour delete
+     */
     public static final String TITLE = "KSP Mission Control Center";
     public static final String FXML_RESOURCE = "FXMLMissionControl.fxml";
 
@@ -47,15 +49,29 @@ public class FXMLMissionControlController implements Initializable {
     private TabPane tabPane;
     @FXML
     private Menu removeChartMenu;
+    @FXML
+    private Menu addChartMenu;
+    @FXML
+    private Menu exportProbeMenu;
+
+    private Thread server = null;
+    ArrayList<Telemetry> data = null;
+    private HashMap<String, String> probeNames = null;
+    private HashMap<String, ArrayList<KSPChart>> charts = null;
 
     /**
      * Initializes the controller class.
+     *
      * @param url
      * @param rb
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        this.addProbe("Voyager 1"); // pour checker le dev
+        this.server = new Thread(new Server());
+        this.server.start();
+        this.data = new ArrayList<>();
+        this.probeNames = new HashMap<>();
+        this.charts = new HashMap<>();
     }
 
     @FXML
@@ -79,60 +95,115 @@ public class FXMLMissionControlController implements Initializable {
         Platform.exit();
     }
 
-    @FXML
-    private void addChartMenuItem(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle(FXMLAddChartController.TITLE);
+    public void addProbe(final String uid, final String probeName) {
+        // Menu item pour créer des charts
+        final FXMLMissionControlController missionController = this;
+        MenuItem mi = new MenuItem();
+        mi.setText(probeName);
+        mi.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event t) {
+                try {
+                    Stage stage = new Stage();
+                    stage.setTitle(FXMLAddChartController.TITLE);
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLAddChartController.FXML_RESOURCE));
-            Parent root = (Parent) loader.load();
-             
-            FXMLAddChartController controller = (FXMLAddChartController)loader.getController();
-            controller.setProbeName("Voyager 1");
-            controller.setMissionControlController(this);
-            
-            Scene scene = new Scene(root);
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLAddChartController.FXML_RESOURCE));
+                    Parent root = (Parent) loader.load();
 
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLMissionControlController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                    FXMLAddChartController controller = (FXMLAddChartController) loader.getController();
+                    controller.setProbeName(probeName);
+                    controller.setUid(uid);
+                    controller.setMissionControlController(missionController);
+
+                    Scene scene = new Scene(root);
+
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException ex) {
+                    Logger.getLogger(FXMLMissionControlController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+        });
+        this.addChartMenu.getItems().add(mi);
+
+        // Menu item pour exporter les data
+        mi = new MenuItem();
+        mi.setText(probeName);
+        mi.setOnAction(new EventHandler() {
+            @Override
+            public void handle(Event t) {
+                try {
+                    Stage stage = new Stage();
+                    stage.setTitle(FXMLExportController.TITLE);
+                    
+                    FXMLLoader loader = new FXMLLoader(getClass().getResource(FXMLExportController.FXML_RESOURCE));
+                    Parent root = (Parent) loader.load();
+
+                    FXMLExportController controller = (FXMLExportController) loader.getController();
+                    
+                    ArrayList<Telemetry> dt = new ArrayList<>();
+                    
+                    
+                    for (Telemetry tl : data) {
+                        if (!tl.getData(DataType.UNIQUE_ID).equals(uid)) continue;
+                            dt.add(tl);
+                    }
+                    controller.setData(dt);
+                    
+                    Scene scene = new Scene(root);
+
+                    stage.setScene(scene);
+                    stage.show();
+                } catch (IOException | JSONException ex) {
+                    Logger.getLogger(FXMLMissionControlController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        });
+        this.exportProbeMenu.getItems().add(mi);
+        /*
+         // Panel de télémétrie
+         JPanel p = new JPanel();
+         p.setBackground(this.probesPanel.getBackground());
+         p.setForeground(this.probesPanel.getForeground());
+         p.setLayout(new BoxLayout(p, BoxLayout.PAGE_AXIS));
+         p.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 10, 10, 10));
+         this.tabbedPane.add(probeName + " - Telemetry", p);
+        
+         this.probePanels.put(uid, p);
+        
+       
+        
+         this.updateProbesPanel();
+         */
+
+        this.charts.put(uid, new ArrayList<KSPChart>());
+        this.probeNames.put(uid, probeName);
+
     }
 
-    public void addProbe(String probeName) {
-
-    }
-    
-    public void addChart(String title, String xAxis, String yAxis) {
-        NumberAxis xNumberAxis = new NumberAxis();
-        xNumberAxis.setLabel(xAxis);
-        
-        NumberAxis yNumberAxis = new NumberAxis();
-        yNumberAxis.setLabel(yAxis);
-        
-        Chart chart = new LineChart(xNumberAxis, yNumberAxis);
-        chart.setTitle(title);
-        
+    public void addChart(final String uid, final KSPChart chart) {
         // On ajoute l'onglet
         final Tab tab = new Tab();
-        tab.setText(title);
-        tab.setContent(chart);
-        
+        tab.setText(chart.getTitle());
+        tab.setContent(chart.getChart());
+
         this.tabPane.getTabs().add(tab);
 
         // On ajoute une entrée au menu pour supprimer l'onglet
         final MenuItem menuItem = new MenuItem();
-        menuItem.setText(title);
+        menuItem.setText(chart.getTitle());
         menuItem.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
                 tabPane.getTabs().remove(tab);
                 removeChartMenu.getItems().remove(menuItem);
+                charts.get(uid).remove(chart);
             }
         });
+
         this.removeChartMenu.getItems().add(menuItem);
+        this.charts.get(uid).add(chart);
     }
 
     @FXML
@@ -151,33 +222,58 @@ public class FXMLMissionControlController implements Initializable {
         }
     }
 
-    private class Server implements Runnable
-    {
+    private void updateChart(Telemetry t) {        
+        try {
+            for (KSPChart c : charts.get(String.valueOf(t.getData(DataType.UNIQUE_ID)))) {
+                c.addData(t);
+            }
+
+        } catch (JSONException ex) {
+            Logger.getLogger(FXMLMissionControlController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
+    private class Server implements Runnable {
+
         private final static int BUFFER_SIZE = 1024;
         private final static int PORT = 8000;
-        
+
         @Override
         public void run() {
             try {
                 DatagramSocket datagramSocket = new DatagramSocket(PORT);
-              
-                     byte[] buffer = new byte[BUFFER_SIZE];
-                     
-                     while (true) 
-                     {
-                         DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
-                         datagramSocket.receive(datagramPacket);   
-                         
-                         Telemetry t = new Telemetry(datagramPacket);
-                     }
-            } catch (JSONException ex) 
-            {
+
+                byte[] buffer = new byte[BUFFER_SIZE];
+
+                while (true) {
+                    DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
+                    datagramSocket.receive(datagramPacket);
+
+                    final Telemetry t = new Telemetry(datagramPacket);
+                    data.add(t);
+                    
+                    if (!probeNames.containsKey(String.valueOf((Long) t.getData(DataType.UNIQUE_ID)))) {
+                        addProbe(String.valueOf((Long) t.getData(DataType.UNIQUE_ID)), (String) t.getData(DataType.VESSEL_NAME));
+                    }
+
+                    //updateTelemetryPanel(t);
+                    
+                     Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            updateChart(t);
+                        }
+                     });
+                    
+                    
+                }
+            } catch (JSONException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             } catch (SocketException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             } catch (IOException ex) {
                 Logger.getLogger(Server.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }  
+        }
     }
 }

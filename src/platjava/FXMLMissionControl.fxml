@@ -12,14 +12,15 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#exportMenuItem" text="Export" />
+            <Menu mnemonicParsing="false" text="Export probe" fx:id="exportProbeMenu" />
+            <MenuItem mnemonicParsing="false" text="Export all" />
             <SeparatorMenuItem mnemonicParsing="false" />
             <MenuItem mnemonicParsing="false" onAction="#closeMenuItem" text="Close" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Edit">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#addChartMenuItem" text="Add chart" />
+            <Menu mnemonicParsing="false" text="Add Chart" fx:id="addChartMenu" />
             <Menu mnemonicParsing="false" text="Remove chart" fx:id="removeChartMenu" />
           </items>
         </Menu>

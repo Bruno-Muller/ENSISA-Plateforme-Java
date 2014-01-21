@@ -18,16 +18,6 @@
     <RadioButton mnemonicParsing="false" selected="true" text="Comma-separated values (*.csv)" toggleGroup="$formatToogleGroup" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="40.0" />
     <Button defaultButton="true" mnemonicParsing="false" onAction="#exportButton" prefWidth="64.0" text="Export" wrapText="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
     <Button cancelButton="true" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="92.0" />
-    <ComboBox fx:id="probeComboBox" layoutX="14.0" layoutY="96.0" prefWidth="226.0" promptText="Probe to export">
-      <items>
-        <FXCollections fx:factory="observableArrayList">
-          <String fx:value="Z-Map Satellite" />
-          <String fx:value="ISS" />
-          <String fx:value="Voyager 1" />
-          <String fx:value="Voyager 2" />
-        </FXCollections>
-      </items>
-    </ComboBox>
     <Button mnemonicParsing="false" onAction="#saveAsButton" text="Save as" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="133.0" />
     <TextField fx:id="fileTextField" editable="false" prefWidth="494.0" promptText="Path" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="92.0" AnchorPane.topAnchor="132.0" />
   </children>
