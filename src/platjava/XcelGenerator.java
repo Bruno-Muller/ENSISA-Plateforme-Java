@@ -34,7 +34,7 @@ public class XcelGenerator
         WritableWorkbook workbook = Workbook.createWorkbook(file);
         WritableSheet sheet = workbook.createSheet(file.toString(), 0);
         Label label;
-        jxl.write.Number number;
+        jxl.write.Number number = null;
         int i =0;
         for (DataType c : DataType.values())
         {
@@ -79,6 +79,8 @@ public class XcelGenerator
                     number = new jxl.write.Number(j,k,(Float)obj.getData(v));
                     j++;
                 }
+                sheet.addCell(number);
+                
             }
             }
             k++;
