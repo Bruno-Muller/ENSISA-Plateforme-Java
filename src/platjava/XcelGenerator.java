@@ -51,6 +51,7 @@ public class XcelGenerator
             Telemetry obj = ittele.next();
             for (DataType v : DataType.values())
             {
+                {
                 if(obj.getData(v).getClass().equals(String.class))
                 {
                     label = new Label(j,k,obj.getData(v).toString());
@@ -64,7 +65,7 @@ public class XcelGenerator
                 }
                 if(obj.getData(v).getClass().equals(Long.class))
                 {
-                    number = new jxl.write.Number(j,k,(Float)obj.getData(v));
+                    number = new jxl.write.Number(j,k,(Long)obj.getData(v));
                     j++;
                 }
                 if(obj.getData(v).getClass().equals(Double.class))
@@ -78,6 +79,7 @@ public class XcelGenerator
                     number = new jxl.write.Number(j,k,(Float)obj.getData(v));
                     j++;
                 }
+            }
             }
             k++;
             j=0;
