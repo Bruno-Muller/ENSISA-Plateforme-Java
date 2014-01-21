@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  *
@@ -27,10 +28,11 @@ public class CSVGenerator
     public static void generateCsvFile(File file, ArrayList<Telemetry> tele) throws JSONException, IOException
     {
         try (FileWriter writer = new FileWriter(file)) {
-            int count = DataType.values().length;
+            int count = DataType.values().length-1;
 
-            for (DataType c : DataType.values()) {
-                writer.append(c.getLabel());
+            for (DataType c : DataType.values())
+            {
+                writer.append("\""+c.getLabel()+"\"");
                 if (!(c.ordinal() == count)) {
                     writer.append(',');
                 }
@@ -38,11 +40,14 @@ public class CSVGenerator
             writer.append('\n');
 
             Iterator<Telemetry> ittele = tele.iterator();
-            while (ittele.hasNext()) {
+            while (ittele.hasNext())
+            {
                 Telemetry obj = ittele.next();
-                for (DataType v : DataType.values()) {
-                    writer.append((obj.getData(v)).toString());
-                    if (!(v.ordinal() == count)) {
+                for (DataType v : DataType.values())
+                {
+                    writer.append("\""+obj.getData(v).toString()+"\"");
+                    if (!(v.ordinal() == count)) 
+                    {
                         writer.append(',');
                     }
                 }

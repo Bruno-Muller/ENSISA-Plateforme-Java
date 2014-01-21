@@ -28,6 +28,6 @@ public class Telemetry
     
     public Object getData(DataType dt) throws JSONException
     {
-        return this.data.get(dt.name().toLowerCase());
+        return this.data.get(dt.toString().toLowerCase());
     }
 }

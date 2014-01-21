@@ -39,7 +39,20 @@ public enum DataType
     
     public String getLabel()
     {
-        return this.LABELS[this.ordinal()];
+        return DataType.LABELS[this.ordinal()];
     }
+    
+//    public enum fromLabel(String lb)
+//    {
+//          for(DataType c : DataType.values())
+//   
+//          {
+//              if(lb = c.toString())
+//              {
+//                  DataType v = c;
+//              }
+//        return v;
+//          }
+//    }
 }
 
