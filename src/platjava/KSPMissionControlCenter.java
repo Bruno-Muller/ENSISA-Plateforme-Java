@@ -28,8 +28,6 @@ public class KSPMissionControlCenter extends Application {
         
         stage.setScene(scene);
         stage.show();
-        
-        Platjava.main(null); // TODO : à supprimer dès que possible
     }
 
     /**

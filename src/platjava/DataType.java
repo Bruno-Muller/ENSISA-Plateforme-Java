@@ -64,7 +64,7 @@ public enum DataType
                 return "K";
             case STATIC_PRESSURE:
             case DYNAMIC_PRESSURE:
-                return "Pa";
+                return "bar";
             default:
                 return "";
         }

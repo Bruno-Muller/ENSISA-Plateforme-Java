@@ -8,7 +8,6 @@ package platjava;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javafx.application.Platform;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -26,7 +25,7 @@ public class KSPChart {
     final private String title;
     final private String uid;
     
-    KSPChart(String uid, String title, DataType x, DataType y) throws Exception {
+    KSPChart(String uid, String title, DataType x, DataType y, String color) throws Exception {
         if (x.getType().equals(String.class)) throw new Exception("X is not a numeric value.");
         if (y.getType().equals(String.class)) throw new Exception("Y is not a numeric value.");
         
@@ -43,13 +42,15 @@ public class KSPChart {
 
         this.serie = new XYChart.Series();
         this.serie.setName(title);
-        //
-
-
+        
         this.chart = new LineChart(xNumberAxis, yNumberAxis);
         this.chart.setTitle(title);
         this.chart.getData().add(serie);
+        this.chart.legendVisibleProperty().set(false);
+        this.chart.setCreateSymbols(false);
         
+        this.serie.getNode().setStyle("-fx-stroke: " + color + ";");
+
     }
     
         public LineChart getChart() {
