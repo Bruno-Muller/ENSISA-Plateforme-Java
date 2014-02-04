@@ -24,6 +24,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -55,12 +56,15 @@ public class FXMLMissionControlController implements Initializable {
         private Menu addChartMenu;
     @FXML
         private Menu exportProbeMenu;
+    @FXML
+        private Tab tabProbes;
 
     private Thread server = null;
     private ArrayList<Telemetry> data = null;
     private HashMap<String, String> probeNames = null;
     private HashMap<String, ArrayList<KSPChart>> charts = null;
     private HashMap<String, Tab> probeTabs = null;
+    
 
     /**
      * Initializes the controller class.
@@ -71,6 +75,7 @@ public class FXMLMissionControlController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.server = new Thread(new Server());
+        this.server.setDaemon(true); // Pour que la JVM puisse fermer l'application
         this.server.start();
         this.data = new ArrayList<>();
         this.probeNames = new HashMap<>();
@@ -78,7 +83,7 @@ public class FXMLMissionControlController implements Initializable {
         this.probeTabs = new HashMap<>();
     }
 
-        private void exportMenuItem(ActionEvent event) {
+    private void exportMenuItem(ActionEvent event) {
         try {
             Stage stage = new Stage();
             stage.setTitle(FXMLExportController.TITLE);
@@ -167,15 +172,20 @@ public class FXMLMissionControlController implements Initializable {
         });
         this.exportProbeMenu.getItems().add(mi);
         
-       Tab tab = new Tab();
+       final Tab tab = new Tab();
        tab.setText(probeName + " - Telemetry");
-       tab.setClosable(true);
-      
+       
         this.probeTabs.put(uid, tab);
-        this.updateProbeTabs();
         this.charts.put(uid, new ArrayList<KSPChart>());
         this.probeNames.put(uid, probeName);
-
+        
+        Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            tabPane.getTabs().add(tab);
+                            updateTabProbes();
+                        }
+                     });
     }
 
     public void addChart(final String uid, final KSPChart chart) {
@@ -229,24 +239,38 @@ public class FXMLMissionControlController implements Initializable {
         }
     }
     
-    private void updateProbeTabs() {
-        /*
-             VBox vb = new VBox();
-       Tab tab = new Tab();
-       tab.setText(probeName + " - Telemetry");
-       tab.setClosable(true);
-       tab.setContent(vb);
-       
-        ObservableList<Label> infos = FXCollections.observableArrayList();
-        for (DataType d : DataType.values()) {
-               infos.add(new Label(d.getLabel() + ": " + t.));
+    private void updateTabProbes() {
+        VBox vb = new VBox();
+        vb.setPadding(new Insets(12, 12, 12, 12));
+        
+        vb.getChildren().add(new Label("Connected probes :"));
+        
+        for (String s : this.probeNames.values()) {
+            vb.getChildren().add(new Label(s));
         }
-
         
-        
-        vb.getChildren().addAll(infos);
-       
-        */
+        this.tabProbes.setContent(vb);
+    }
+    
+    private void updateTelemetryTab(Telemetry t) {
+        try {
+            VBox vb = new VBox();
+            vb.setPadding(new Insets(12, 12, 12, 12));
+            
+            ObservableList<Label> infos = FXCollections.observableArrayList();
+            for (DataType d : DataType.values()) {
+                infos.add(new Label(String.format("%s : %s %s", d.getLabel(), t.getData(d), d.getUnity())));
+            }
+            vb.getChildren().addAll(infos);
+            
+            this.probeTabs.get(String.valueOf(t.getData(DataType.UNIQUE_ID))).setContent(vb);
+            
+            
+            
+            //if (p == this.tabbedPane.getSelectedComponent()) p.revalidate();
+        } catch (JSONException ex) {
+            Logger.getLogger(FXMLMissionControlController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     private class Server implements Runnable {
@@ -278,6 +302,7 @@ public class FXMLMissionControlController implements Initializable {
                         @Override
                         public void run() {
                             updateChart(t);
+                            updateTelemetryTab(t);
                         }
                      });
                     

@@ -7,17 +7,22 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="200.0" prefWidth="300.0" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/2.2" fx:controller="platjava.FXMLAddChartController">
+<AnchorPane id="AnchorPane" fx:id="anchor" prefHeight="252.0" prefWidth="336.0" xmlns:fx="http://javafx.com/fxml" xmlns="http://javafx.com/javafx/2.2" fx:controller="platjava.FXMLAddChartController">
   <children>
     <TextField fx:id="titleTextField" prefWidth="517.0" promptText="Title" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-    <ComboBox fx:id="yAxisComboBox" prefWidth="517.0" promptText="X axis" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0">
-    </ComboBox>
-    <ComboBox fx:id="xAxisComboBox" prefWidth="517.0" promptText="Y axis" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="86.0">
-    </ComboBox>
+    <ComboBox fx:id="yAxisComboBox" prefWidth="517.0" promptText="X axis" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="50.0" />
+    <ComboBox fx:id="xAxisComboBox" prefWidth="517.0" promptText="Y axis" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="86.0" />
     <Label text="Title" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="17.0" />
     <Label text="Y axis" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="53.0" />
     <Label text="X axis" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="86.0" />
     <Button defaultButton="true" mnemonicParsing="false" onAction="#addButton" prefWidth="64.0" text="Add" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
     <Button cancelButton="true" mnemonicParsing="false" onAction="#cancelButton" text="Cancel" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="92.0" />
+    <Slider fx:id="redSlider" blockIncrement="5.0" layoutX="69.0" layoutY="126.0" max="255.0" prefWidth="161.0" value="224.0" />
+    <Slider fx:id="greenSlider" blockIncrement="5.0" layoutX="69.0" layoutY="150.0" max="255.0" prefWidth="161.0" value="32.0" />
+    <Label layoutX="14.0" layoutY="126.0" text="Red" />
+    <Label layoutX="14.0" layoutY="150.0" text="Green" />
+    <Label layoutX="14.0" layoutY="174.0" text="Blue" />
+    <Slider fx:id="blueSlider" blockIncrement="5.0" layoutX="69.0" layoutY="174.0" max="255.0" prefWidth="161.0" value="32.0" />
+    <Label id="idColor" fx:id="colorLabel" layoutX="244.0" layoutY="126.0" prefHeight="64.0" prefWidth="78.0001220703125" style="-fx-border-width: 1px;&#10;-fx-border-style: solid;&#10;-fx-border-color: black;&#10;-fx-background-color: #E02020;" text="" />
   </children>
 </AnchorPane>

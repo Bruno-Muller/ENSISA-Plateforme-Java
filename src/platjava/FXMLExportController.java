@@ -92,7 +92,7 @@ public class FXMLExportController implements Initializable {
         if (this.csvButtonRadio.isSelected())
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
         else if (this.xlsButtonRadio.isSelected())
-            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Excel (*.xls)", "*.xls"));
                 
         this.file = fileChooser.showSaveDialog(null);
 
