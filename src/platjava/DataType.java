@@ -17,6 +17,7 @@ public enum DataType
     PERIAPSIS,ECCENTRICITY,TOTAL_MASS,ATMOSPHERE_DENSITY,TEMPERATURE,
     STATIC_PRESSURE,DYNAMIC_PRESSURE;
     
+    // Labels textuels pour l'interface graphique
     private static final String[] LABELS = {"Unique id","Vessel name",
         "Mission time","Reference Body","Altitude","Latitude",
         "Longitude","Vertical speed","Orbital velocity","Surface velocity",
@@ -24,6 +25,7 @@ public enum DataType
     "Atmosphere density", "Temperature","Static pressure",
     "Dynamic pressure"};
     
+    // Pour connaitre le type de la donnée
     public Class getType()
     {
         switch(this)
@@ -38,10 +40,9 @@ public enum DataType
         }
     }
     
+    // Pour connaitre l'unité de la donnée
     public String getUnity()
     {
-        //Distance m, total tonne , vitesse m/s, default string vide, temps sec
-        //P
         switch(this)
         {
             case MISSION_TIME:
@@ -70,11 +71,13 @@ public enum DataType
         }
     }
     
+    // Récupère le label textuel d'un type énuméré
     public String getLabel()
     {
         return DataType.LABELS[this.ordinal()];
     }
     
+    // Récupère le type énuméré à partir de son label
     public DataType fromLabel(String lb)
     {
         DataType v=null;

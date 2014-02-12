@@ -62,6 +62,8 @@ public class FXMLAddChartController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        // Initialisation des combobox des axes
         ObservableList<String> labels = FXCollections.observableArrayList();
         for (DataType d : DataType.values()) {
             if (!d.getType().equals(String.class)) {
@@ -72,6 +74,7 @@ public class FXMLAddChartController implements Initializable {
         this.xAxisComboBox.setItems(labels);
         this.yAxisComboBox.setItems(labels);
 
+        // Initialisation des sliders de selection de couleur
         ColorStyleChangeListener cscl = new ColorStyleChangeListener();
         this.redSlider.valueProperty().addListener(cscl);
         this.greenSlider.valueProperty().addListener(cscl);
@@ -80,7 +83,10 @@ public class FXMLAddChartController implements Initializable {
 
     @FXML
     private void addButton(ActionEvent event) {
+        // On ajoute un graphe
+        
         try {
+            // On récupère le type énuméré des axes à partir des labels
             DataType x = null, y = null;
             for (DataType d : DataType.values()) {
                 if (this.xAxisComboBox.getValue().equals(d.getLabel())) {
@@ -92,12 +98,15 @@ public class FXMLAddChartController implements Initializable {
                 }
             }
 
+            // On récupère la couleur
             int red = (int) Math.floor(redSlider.getValue());
             int green = (int) Math.floor(greenSlider.getValue());
             int blue = (int) Math.floor(blueSlider.getValue());
 
+            // On créer le graphe et on l'ajoute à la fenêtre principale
             KSPChart chart = new KSPChart(this.uid, this.titleTextField.getText(), x, y, getColor());
             this.missionControlController.addChart(this.uid, chart);
+            
             ((Stage) this.anchor.getScene().getWindow()).close();
         } catch (Exception ex) {
             Logger.getLogger(FXMLAddChartController.class.getName()).log(Level.SEVERE, null, ex);
@@ -106,6 +115,8 @@ public class FXMLAddChartController implements Initializable {
 
     @FXML
     private void cancelButton(ActionEvent event) {
+        // L'utilisateur annule la création d'un graphe
+        
         ((Stage) this.anchor.getScene().getWindow()).close();
     }
 
@@ -121,11 +132,13 @@ public class FXMLAddChartController implements Initializable {
         this.missionControlController = missionControlController;
     }
 
+    // Listener pour mettre à jour dynamiquement la couleur dans la vue à partir des sliders
     private class ColorStyleChangeListener implements ChangeListener<Number> {
 
         @Override
         public void changed(ObservableValue<? extends Number> ov, Number old_val, Number new_val) {
 
+            // On crée dynamiquement le css pour la vue FXML
             StringBuilder sb = new StringBuilder();
 
             sb.append("-fx-border-width: 1px;");
@@ -138,6 +151,7 @@ public class FXMLAddChartController implements Initializable {
         }
     }
 
+    // Pour convertir la valeur des slider en une couleur css
     private String getColor() {
         int red = (int) Math.floor(redSlider.getValue());
         int green = (int) Math.floor(greenSlider.getValue());

@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.ComboBox;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleGroup;
@@ -61,15 +60,16 @@ public class FXMLExportController implements Initializable {
 
     @FXML
     private void exportButton(ActionEvent event) {
-
+        // L'utilsateur veut exporter les données en csv ou en xls
+        
         try {
             if (this.file != null) {
-                System.out.println(this.data.size());
+
                 
-                     if (this.csvButtonRadio.isSelected())
-                        CSVGenerator.generateCsvFile(this.file, this.data);
-                     else if (this.xlsButtonRadio.isSelected())
-                        XcelGenerator.generateXcelFile(this.file, this.data);
+                 if (this.csvButtonRadio.isSelected())
+                    CSVGenerator.generateCsvFile(this.file, this.data);
+                 else if (this.xlsButtonRadio.isSelected())
+                    XcelGenerator.generateXcelFile(this.file, this.data);
 
                 ((Stage) this.anchorPane.getScene().getWindow()).close();
             }
@@ -81,14 +81,19 @@ public class FXMLExportController implements Initializable {
 
     @FXML
     private void cancelButton(ActionEvent event) {
+        // L'utilisateur annule l'exportation
+        
         ((Stage) this.anchorPane.getScene().getWindow()).close();
     }
 
     @FXML
     private void saveAsButton(ActionEvent event) {
+        // Permet à l'utilisateur de choisir l'emplacement du fichier d'export
+        
         FileChooser fileChooser = new FileChooser();
         fileChooser.setInitialFileName("export");
 
+        // L'extension du fichier et le filtre du filechooser dépend du format d'export voulu (csv ou xls)
         if (this.csvButtonRadio.isSelected())
             fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Comma-separated values (*.csv)", "*.csv"));
         else if (this.xlsButtonRadio.isSelected())
@@ -105,6 +110,7 @@ public class FXMLExportController implements Initializable {
         return this.file;
     }
 
+    // Les data à exporter
     public void setData(ArrayList<Telemetry> data) {
         this.data = data;
     }

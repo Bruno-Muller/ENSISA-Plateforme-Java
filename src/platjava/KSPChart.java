@@ -25,6 +25,7 @@ public class KSPChart {
     final private String title;
     final private String uid;
     
+    // Pattern décorateur pour manipuler des graphiques
     KSPChart(String uid, String title, DataType x, DataType y, String color) throws Exception {
         if (x.getType().equals(String.class)) throw new Exception("X is not a numeric value.");
         if (y.getType().equals(String.class)) throw new Exception("Y is not a numeric value.");

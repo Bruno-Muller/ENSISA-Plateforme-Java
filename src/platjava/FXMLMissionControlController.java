@@ -75,39 +75,29 @@ public class FXMLMissionControlController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         this.server = new Thread(new Server());
-        this.server.setDaemon(true); // Pour que la JVM puisse fermer l'application
+        this.server.setDaemon(true); // Pour que la JVM puisse fermer l'application, sinon le thread du serveur continue de vivre à la fermeture de l'application
         this.server.start();
         this.data = new ArrayList<>();
         this.probeNames = new HashMap<>();
         this.charts = new HashMap<>();
         this.probeTabs = new HashMap<>();
     }
-
-    private void exportMenuItem(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            stage.setTitle(FXMLExportController.TITLE);
-
-            Parent root = FXMLLoader.load(getClass().getResource(FXMLExportController.FXML_RESOURCE));
-            Scene scene = new Scene(root);
-
-            stage.setScene(scene);
-            stage.show();
-        } catch (IOException ex) {
-            Logger.getLogger(FXMLMissionControlController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
+    
     @FXML
     private void closeMenuItem(ActionEvent event) {
+        // Pour fermer l'application
         Platform.exit();
     }
 
+    // On ajoute une sonde (fusée/satellite)
     public void addProbe(final String uid, final String probeName) {
-        // Menu item pour créer des charts
+        
+        // Un crée un menu item et son listener pour créer des charts par rapport à la sonde
         final FXMLMissionControlController missionController = this;
         MenuItem mi = new MenuItem();
         mi.setText(probeName);
+        
+        // Handler qui permettra à l'utilisateur d'ouvrir la vue de création d'un graph
         mi.setOnAction(new EventHandler() {
             @Override
             public void handle(Event t) {
@@ -138,6 +128,8 @@ public class FXMLMissionControlController implements Initializable {
         // Menu item pour exporter les data
         mi = new MenuItem();
         mi.setText(probeName);
+        
+        // Handler qui permettra à l'utilisateur d'ouvrir la vue d'exportation
         mi.setOnAction(new EventHandler() {
             @Override
             public void handle(Event t) {
@@ -150,9 +142,8 @@ public class FXMLMissionControlController implements Initializable {
 
                     FXMLExportController controller = (FXMLExportController) loader.getController();
                     
+                    // On récupère les data à exporter
                     ArrayList<Telemetry> dt = new ArrayList<>();
-                    
-                    
                     for (Telemetry tl : data) {
                         if (String.valueOf(tl.getData(DataType.UNIQUE_ID)).equals(uid))
                             dt.add(tl);
@@ -172,13 +163,15 @@ public class FXMLMissionControlController implements Initializable {
         });
         this.exportProbeMenu.getItems().add(mi);
         
-       final Tab tab = new Tab();
-       tab.setText(probeName + " - Telemetry");
+        // On rajoute dans l'interface graphique la vue permmettant de visualiser les données en temps réel
+        final Tab tab = new Tab();
+        tab.setText(probeName + " - Telemetry");
        
         this.probeTabs.put(uid, tab);
         this.charts.put(uid, new ArrayList<KSPChart>());
         this.probeNames.put(uid, probeName);
         
+        // La manipulation de l'UI ne peut pas se faire dans le thread courant, il faut déléguer la mise à jour au thread graphique
         Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
@@ -188,6 +181,7 @@ public class FXMLMissionControlController implements Initializable {
                      });
     }
 
+    // On ajoute un graphe
     public void addChart(final String uid, final KSPChart chart) {
         // On ajoute l'onglet
         final Tab tab = new Tab();
@@ -228,7 +222,9 @@ public class FXMLMissionControlController implements Initializable {
         }
     }
 
-    private void updateChart(Telemetry t) {        
+    // On met à jour les graph à partir des données reçues
+    private void updateChart(Telemetry t) { 
+        // On ajoute les données aux bons graphes
         try {
             for (KSPChart c : charts.get(String.valueOf(t.getData(DataType.UNIQUE_ID)))) {
                 c.addData(t);
@@ -239,6 +235,7 @@ public class FXMLMissionControlController implements Initializable {
         }
     }
     
+    // Quand une nouvelle sonde est détectée, on la rajoute à a liste des sondes déjà connues
     private void updateTabProbes() {
         VBox vb = new VBox();
         vb.setPadding(new Insets(12, 12, 12, 12));
@@ -252,6 +249,7 @@ public class FXMLMissionControlController implements Initializable {
         this.tabProbes.setContent(vb);
     }
     
+    // On met à jour les données à afficher à partir des données reçues
     private void updateTelemetryTab(Telemetry t) {
         try {
             VBox vb = new VBox();
@@ -264,15 +262,12 @@ public class FXMLMissionControlController implements Initializable {
             vb.getChildren().addAll(infos);
             
             this.probeTabs.get(String.valueOf(t.getData(DataType.UNIQUE_ID))).setContent(vb);
-            
-            
-            
-            //if (p == this.tabbedPane.getSelectedComponent()) p.revalidate();
         } catch (JSONException ex) {
             Logger.getLogger(FXMLMissionControlController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
+    // Le server
     private class Server implements Runnable {
 
         private final static int BUFFER_SIZE = 1024;
@@ -286,9 +281,12 @@ public class FXMLMissionControlController implements Initializable {
                 byte[] buffer = new byte[BUFFER_SIZE];
 
                 while (true) {
+                    
+                    // On attend la récéption de données
                     DatagramPacket datagramPacket = new DatagramPacket(buffer, buffer.length);
                     datagramSocket.receive(datagramPacket);
 
+                    // Pattern décorateur pour exploiter les données et on met à jour les modèles
                     final Telemetry t = new Telemetry(datagramPacket);
                     data.add(t);
                     
@@ -296,8 +294,7 @@ public class FXMLMissionControlController implements Initializable {
                         addProbe(String.valueOf((Long) t.getData(DataType.UNIQUE_ID)), (String) t.getData(DataType.VESSEL_NAME));
                     }
 
-                    //updateTelemetryPanel(t);
-                    
+                    // La mise à jour de l'UI ne peut pas se faire dans le thread du serveur
                      Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
