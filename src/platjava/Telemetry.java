@@ -12,7 +12,7 @@ import org.json.JSONObject;
 
 /**
  *
- * @author ASUS
+ * @author sanzensekai
  */
 public class Telemetry
 {
