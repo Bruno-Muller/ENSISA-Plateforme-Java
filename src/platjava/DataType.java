@@ -8,7 +8,7 @@ package platjava;
 
 /**
  *
- * @author ASUS
+ * @author Sanzensekai
  */
 public enum DataType
 {
