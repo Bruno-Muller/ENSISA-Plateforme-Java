@@ -19,7 +19,7 @@ import org.json.JSONException;
 
 /**
  *
- * @author ASUS
+ * @author Sanzensekai
  */
 public class XcelGenerator
 {
